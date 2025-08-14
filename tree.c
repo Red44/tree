@@ -262,6 +262,7 @@ int main(int argc, char **argv) {
                             fprintf(stderr, "tree: Invalid max, must be greater than 0.\n");
                             exit(1);
                         }
+                        maxfiles++; // to include the . 'file'
 
                         break;
                     case 'i':
@@ -920,9 +921,9 @@ struct _info **read_dir(char *dir, ssize_t *n, int infotop) {
         if (!strcmp("..", ent->d_name) || !strcmp(".", ent->d_name)) continue;
         if (Hflag && !strcmp(ent->d_name, "00Tree.html")) continue;
         if (!aflag && ent->d_name[0] == '.') continue;
-        if (ent->d_type != DT_DIR && ent->d_type != DT_UNKNOWN){
+        if (ent->d_type != DT_DIR && ent->d_type != DT_UNKNOWN && ent->d_type != DT_WHT){
             files++;
-            if (files >= maxfiles)
+            if (files > maxfiles)
                 continue;
         }
         if (strlen(dir) + strlen(ent->d_name) + 2 > pathsize)
