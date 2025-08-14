@@ -920,7 +920,7 @@ struct _info **read_dir(char *dir, ssize_t *n, int infotop) {
         if (!strcmp("..", ent->d_name) || !strcmp(".", ent->d_name)) continue;
         if (Hflag && !strcmp(ent->d_name, "00Tree.html")) continue;
         if (!aflag && ent->d_name[0] == '.') continue;
-        if (ent->d_type == DT_REG) {
+        if (ent->d_type != DT_DIR && ent->d_type != DT_UNKNOWN){
             files++;
             if (files >= maxfiles)
                 continue;
